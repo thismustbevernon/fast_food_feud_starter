@@ -6,7 +6,7 @@ import Header from "./components/Header/Header"
 import Instructions from "./components/Instructions/Instructions"
 import Chip from "./components/Chip/Chip"
 
-
+import { useState } from "react"
 
 
 // don't move this!q
@@ -27,17 +27,39 @@ export const appInfo = {
 const { data, categories, restaurants } = createDataSet()
 
 export function App() {
+
+const [tempCategory, setTempCategory] = useState(null);
+const [tempRestaurant, setTempResturant] = useState(null);
+const [tempMenu, setTempMenu] = useState(null);
+
+
+
+function changeCategory(cat){
+setTempCategory(cat)
+}
+
+
+function changeRestaurannt(rest){
+  setTempResturant(rest)
+}
+
+
+function changeMenu(men){
+  setTempMenu(men)
+}
+
+
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
       <div className="CategoriesColumn col">
         <div className="categories options">
           <h2 className="title">Categories</h2>
-          {/* YOUR CODE HERE */}
+         
 
 
           {categories.map((category,id)=>(
-            <Chip key={id} label={category} />
+            <Chip key={id} label={category} isActive = {category === tempCategory} onClick={()=>changeCategory(category)}/>
           )
 
           )}
@@ -47,13 +69,13 @@ export function App() {
       {/* MAIN COLUMN */}
       <div className="container">
         {/* HEADER GOES HERE */}
-        <Header input = {appInfo}/>
+        <Header title = {appInfo.title} tagline ={appInfo.tagline} description ={appInfo.description}/>
         {/* RESTAURANTS ROW */}
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
           <div className="restaurants options">{/* YOUR CODE HERE */}
           {restaurants.map((restaurant)=>(
-            <Chip label={restaurant}/>
+            <Chip label={restaurant} isActive = {restaurant === tempRestaurant} onClick={()=>changeRestaurannt(restaurant)}/>
           )
 
           )}</div>
