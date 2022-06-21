@@ -1,9 +1,10 @@
 import * as React from "react"
 import "./Chip.css"
+import { useState } from "react";
 
-export function Chip({ label = "", isActive = true, onClick}) {
+export function Chip({ label = "", isActive = false, onClick}) {
 
-  var buttonClassName;
+  var buttonClassName = '';
   if (isActive){
     buttonClassName = "chip active"
   }

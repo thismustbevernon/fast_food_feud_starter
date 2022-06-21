@@ -7,6 +7,8 @@ import Instructions from "./components/Instructions/Instructions"
 import Chip from "./components/Chip/Chip"
 
 import { useState } from "react"
+import NutritionalLabel from "./components/NutritionalLabel/NutritionalLabel"
+import { nutritionFacts } from "./constants"
 
 
 // don't move this!q
@@ -44,20 +46,18 @@ function changeRestaurannt(rest){
 }
 
 
-function changeMenu(men){
-  setTempMenu(men)
+function changeMenu(menu){
+  setTempMenu(menu)
 }
 
-
+var currentMenuItems = data.filter((datum)=>{return datum.restaurant === tempRestaurant && datum.food_category === tempCategory})
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
       <div className="CategoriesColumn col">
         <div className="categories options">
           <h2 className="title">Categories</h2>
-         
-
-
+        
           {categories.map((category,id)=>(
             <Chip key={id} label={category} isActive = {category === tempCategory} onClick={()=>changeCategory(category)}/>
           )
@@ -74,8 +74,8 @@ function changeMenu(men){
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
           <div className="restaurants options">{/* YOUR CODE HERE */}
-          {restaurants.map((restaurant)=>(
-            <Chip label={restaurant} isActive = {restaurant === tempRestaurant} onClick={()=>changeRestaurannt(restaurant)}/>
+          {restaurants.map((restaurant,id)=>(
+            <Chip label={restaurant} key={id} isActive = {restaurant === tempRestaurant} onClick={()=>changeRestaurannt(restaurant)}/>
           )
 
           )}</div>
@@ -83,17 +83,24 @@ function changeMenu(men){
 
         {/* INSTRUCTIONS GO HERE */}
 
-        <Instructions input = {appInfo.instructions.start}/>
+        <Instructions instructions = {appInfo.instructions.start}/>
 
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">
           <div className="MenuItemButtons menu-items">
             <h2 className="title">Menu Items</h2>
             {/* YOUR CODE HERE */}
+
+            {currentMenuItems.map((menuItem,id)=>(
+
+            <Chip label ={menuItem.item_name} key ={id} onClick={()=>changeMenu(menuItem)}/>
+            ))}
           </div>
 
           {/* NUTRITION FACTS */}
-          <div className="NutritionFacts nutrition-facts">{/* YOUR CODE HERE */}</div>
+          <div className="NutritionFacts nutrition-facts">{/* YOUR CODE HERE */}
+            {tempMenu ? <NutritionalLabel item = {tempMenu}/> : null}
+          </div>
         </div>
 
         <div className="data-sources">
